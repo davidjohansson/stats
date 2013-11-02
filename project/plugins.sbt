@@ -8,7 +8,7 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.0")
 
-addSbtPlugin("play" % "sbt-plugin" % "2.0.2")
+addSbtPlugin("play" % "sbt-plugin" % "2.2.0")
 
 // This plugin is used to load the sbt-jasmine plugin into our project. 
 // This allows us to import the SbtJasminePlugin file
