@@ -1,0 +1,39 @@
+@(message: String)
+
+<!DOCTYPE html> 
+<html ng-app> 
+<head> 
+    <title>My Page</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <!--<script src="@routes.Assets.at("javascripts/eventhandlers.js")" type="text/javascript"></script>-->
+    <script src="@routes.Assets.at("javascripts/BodyCtrl.js")" type="text/javascript"></script>
+</head> 
+<body> 
+
+    <div data-role="page">
+    
+        <div data-role="header">
+            <h1>Kroppen</h1>
+        </div>
+    
+    
+        <div data-role="content">
+            <div ng-controller="BodyCtrl">
+            
+              <form ng-submit="addDailyBodyStats()">
+                  <input type="text" ng-model="vikt" placeholder="Vikt" value={{vikt}}>
+                  <input type="text" ng-model="fett2" placeholder="Fettprocent" value={{fett2}}>
+                  <input type="text" ng-model="mage" placeholder="Mage">
+                  <input type="text" ng-model="brost" placeholder="Bröstkorg">
+                  <input type="text" ng-model="nacke" placeholder="Nacke">
+                  <input type="submit" value="Posta till Google spreadsheet" />
+              </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
