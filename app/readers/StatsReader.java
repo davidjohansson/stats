@@ -1,16 +1,17 @@
 package readers;
 
-import authentication.SpreadSheetAuthenticator;
-import model.BodyStats;
+import model.PeriodizedStatsWrapper;
 import model.SpreadSheetApi;
+import model.SpreadSheetException;
+import authentication.SpreadSheetAuthenticator;
 
 
 public interface StatsReader {
 
-    BodyStats readStats(String any);
+    public <T> PeriodizedStatsWrapper<T> readStats(String any, Class<T> clazz) throws SpreadSheetException;
     
-    SpreadSheetAuthenticator getAuthenticator();
+    public SpreadSheetAuthenticator getAuthenticator();
 
-    SpreadSheetApi getApi();
+    public SpreadSheetApi getApi();
 
 }

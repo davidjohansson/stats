@@ -1,10 +1,17 @@
 package readers;
 
+import java.text.ParseException;
+
 import javax.inject.Inject;
 
-import model.BodyStats;
+import util.DateUtil;
+import writers.SpreadSheetIntegrationData;
+
+import model.PeriodizedStatsWrapper;
 import model.SpreadSheetApi;
 import model.SpreadSheetException;
+import model.StatsMetaData;
+import model.StatsMetaDataHelper;
 import authentication.SpreadSheetAuthenticator;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
@@ -28,19 +35,34 @@ public class GoogleSpreadSheetStatsReader implements StatsReader {
     }
 
     @Override
-    public BodyStats readStats(String colValue) {
+    public <T> PeriodizedStatsWrapper<T> readStats(String colValue, Class<T> statsClass) throws SpreadSheetException  {
+
+        T dailyStats = null;
+        T weeklyStats = null;
+
+        StatsMetaData metaData = StatsMetaDataHelper.getMetaData(statsClass);
         SpreadsheetService service = createService();
+        String spreadSheet = metaData.getSpreadSheet();
+        String dailyWorkSheet = metaData.getDailyWorkSheet();
+        String weeklyWorkSheet = metaData.getWeeklyWorkSheet();
+        
         try {
             authenticator.authenticateService(service);
-            return api.getDataByFirstColumnValue(colValue, service, BodyStats.class);
+            
+            SpreadSheetIntegrationData data = new SpreadSheetIntegrationData(service, spreadSheet, dailyWorkSheet);
+            dailyStats = api.getDataByFirstColumnValue(colValue, statsClass, data);
+            
+            if(weeklyWorkSheet != null && weeklyWorkSheet.length() > 0){
+                data = new SpreadSheetIntegrationData(service, spreadSheet, weeklyWorkSheet);
+                weeklyStats = api.getDataByFirstColumnValue(new DateUtil().getStartOfWeek(colValue), statsClass, data);
+            }
+            
+            return new PeriodizedStatsWrapper<T>(dailyStats, weeklyStats);
         } catch (ServiceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SpreadSheetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
+            throw new SpreadSheetException(e);
+        } catch (ParseException e) {
+            throw new SpreadSheetException(e);
+        } 
     }
 
     private SpreadsheetService createService() {

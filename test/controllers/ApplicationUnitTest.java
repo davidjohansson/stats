@@ -3,12 +3,14 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.contentType;
 import model.BodyStats;
+import model.PeriodizedStatsWrapper;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -53,12 +55,13 @@ public class ApplicationUnitTest {
     }
 
     @Test
-    public void bench_should_return_weight_stats(){
+    public void bench_should_return_weight_stats() throws Exception{
         //Given
         StatsReader currentReader = Application.reader;
         try{
             StatsReader reader = mock(StatsReader.class);
-            when(reader.readStats(any(String.class))).thenReturn(new BodyStats());
+            PeriodizedStatsWrapper<BodyStats> result = new PeriodizedStatsWrapper<BodyStats>(new BodyStats(), new BodyStats());
+            when(reader.readStats(any(String.class), eq(BodyStats.class))).thenReturn(result);
             Application.reader = reader;
             
             //When
@@ -66,7 +69,7 @@ public class ApplicationUnitTest {
             Application.bodystatsGet(any);
             
             //Then
-            verify(reader).readStats(any);
+            verify(reader).readStats(eq(any), eq(BodyStats.class));
         } finally{
             Application.reader = currentReader;
         }

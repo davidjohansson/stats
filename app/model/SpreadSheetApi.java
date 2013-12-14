@@ -1,12 +1,11 @@
 package model;
 
-import com.google.gdata.client.spreadsheet.SpreadsheetService;
+import writers.SpreadSheetIntegrationData;
 
 public interface SpreadSheetApi {
 
-    public <T> T getDataByFirstColumnValue(String dateString, SpreadsheetService service, Class<T> returnType) throws SpreadSheetException;
+    public <T> T getDataByFirstColumnValue(String dateString, Class<T> returnType, SpreadSheetIntegrationData data) throws SpreadSheetException;
 
-    public Object writeDataByFirstColumnValue(String colValue,
-            SpreadsheetService service, BodyStats bodyStats) throws SpreadSheetException;
-
+    public <T> T writeDataByFirstColumnValue(String colValue,
+            T stats, SpreadSheetIntegrationData data) throws SpreadSheetException;
 }

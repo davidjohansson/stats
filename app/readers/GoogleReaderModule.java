@@ -2,6 +2,7 @@ package readers;
 
 import model.GoogleSpreadSheetApi;
 import model.SpreadSheetApi;
+import util.DateUtil;
 import writers.GoogleSpreadSheetStatsWriter;
 import writers.StatsWriter;
 import authentication.ClientLoginAuthenticator;
@@ -17,5 +18,6 @@ public class GoogleReaderModule extends AbstractModule {
         bind(SpreadSheetAuthenticator.class).to(ClientLoginAuthenticator.class);
         bind(SpreadSheetApi.class).to(GoogleSpreadSheetApi.class);
         bind(StatsWriter.class).to(GoogleSpreadSheetStatsWriter.class);
+        bind(DateUtil.class);
     }
 }

@@ -5,6 +5,9 @@ import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.running;
 import static play.test.Helpers.testServer;
+import helpers.TestHelper;
+
+import model.BodyStats;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,6 +37,12 @@ public class ApplicationIntegrationTest {
     @Test
     public void test_get() throws Exception{
         Result bench = Application.bodystatsGet("2013-09-20");
+        System.out.println(bench.getWrappedResult().toString());
+    }
+    
+    @Test
+    public void test_put() throws Exception{
+        Result bench = Application.bodystatsPut(TestHelper.getRandomColumnKey(), BodyStats.getSampleBodyStats());
         System.out.println(bench.getWrappedResult().toString());
     }
 }

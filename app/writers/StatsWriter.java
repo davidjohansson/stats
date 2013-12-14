@@ -1,10 +1,10 @@
 package writers;
 
-import model.BodyStats;
+import model.PeriodizedStatsWrapper;
 import model.SpreadSheetException;
 
 public interface StatsWriter {
 
-    Object writeStats(String any, BodyStats any2) throws SpreadSheetException;
+    public <T> PeriodizedStatsWrapper<T> writeStats(String colValue, T stats) throws SpreadSheetException;
 
 }
