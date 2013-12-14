@@ -1,5 +1,4 @@
 @(message: String)
-
 <!DOCTYPE html> 
 <html ng-app> 
 <head> 
@@ -13,17 +12,13 @@
     <script src="@routes.Assets.at("javascripts/BodyCtrl.js")" type="text/javascript"></script>
 </head> 
 <body> 
-
-    <div data-role="page">
-    
+    <div data-role="page" id="bodystats">
         <div data-role="header">
             <h1>Kroppen</h1>
         </div>
-    
-    
         <div data-role="content">
             <div ng-controller="BodyCtrl">
-            
+            the stuff
               <form ng-submit="addDailyBodyStats()">
                   <input type="text" ng-model="vikt" placeholder="Vikt" value={{vikt}}>
                   <input type="text" ng-model="fett2" placeholder="Fettprocent" value={{fett2}}>

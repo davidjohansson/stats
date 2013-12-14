@@ -5,11 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BodyStats {
 
-    public static final double SAMPLE_BROST = 103.5;
-    public static final double SAMPLE_MAGE = 82.5;
-    public static final double SAMPLE_FETT2 = 12.7;
-    public static final double SAMPLE_NACKE = 43.5;
-    public static final double SAMPLE_VIKT = 82.0;
     private double vikt;
     private double fett2;
     private double mage;
@@ -61,7 +56,13 @@ public class BodyStats {
         return "BodyStats [vikt=" + vikt + ", fett2=" + fett2 + ", mage="
                 + mage + ", bröst=" + brost + ", nacke=" + nacke + "]";
     }
-    
+
+    public static final double SAMPLE_BROST = 103.5;
+    public static final double SAMPLE_MAGE = 82.5;
+    public static final double SAMPLE_FETT2 = 12.7;
+    public static final double SAMPLE_NACKE = 43.5;
+    public static final double SAMPLE_VIKT = 82.0;
+
     public static BodyStats getSampleBodyStats(){
         BodyStats stats = new BodyStats();
         stats.setBrost(SAMPLE_BROST);

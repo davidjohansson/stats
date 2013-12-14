@@ -1,43 +1,85 @@
 package writers;
 
-import java.util.UUID;
-
 import helpers.TestHelper;
-import model.BodyStats;
+import model.DailyStats;
 import model.GoogleSpreadSheetApi;
+import model.PeriodizedStatsWrapper;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import readers.GoogleSpreadSheetStatsReader;
-
-import writers.GoogleSpreadSheetStatsWriter;
+import util.DateUtil;
 import authentication.ClientLoginAuthenticator;
 
 public class GoogleSpreadSheetStatsWriterIntegrationTest {
-
-    private static BodyStats readStats;
-
     @BeforeClass
     public static void setup() throws Exception{
-        String colValue = UUID.randomUUID().toString().replaceAll("-", "").substring(0,6);
-        BodyStats bodyStats = BodyStats.getSampleBodyStats();
+     }
+
+    @Test
+    public void should_not_accumulate_if_two_dailys_written_the_same_day() throws Exception{
+        //Given
+        GoogleSpreadSheetApi api = new GoogleSpreadSheetApi();
+        ClientLoginAuthenticator authenticator = new ClientLoginAuthenticator();
+        GoogleSpreadSheetStatsReader reader = new GoogleSpreadSheetStatsReader(authenticator, api);
+        GoogleSpreadSheetStatsWriter writer = new GoogleSpreadSheetStatsWriter(authenticator, api, new DateUtil(), reader);
+        
+        String dailyDate = TestHelper.getRandomColumnKey();
+        System.out.println("Random date:" + dailyDate);
 
         //When
-        GoogleSpreadSheetStatsWriter writer = new GoogleSpreadSheetStatsWriter(new ClientLoginAuthenticator(), new GoogleSpreadSheetApi());
-        writer.writeStats(colValue, bodyStats);
-
-        GoogleSpreadSheetStatsReader reader = new GoogleSpreadSheetStatsReader(new ClientLoginAuthenticator(), new GoogleSpreadSheetApi());
-        readStats = reader.readStats(colValue);
+        writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
+        writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
+        
+        //Then
+        PeriodizedStatsWrapper<DailyStats> accumulatedStats = reader.readStats(dailyDate, DailyStats.class);
+        TestHelper.assertMat(accumulatedStats.getWeekly(), DailyStats.SAMPLE_MAT);
     }
 
     @Test
+    public void should_accumulate_mat_if_new_daily_stats_in_same_week() throws Exception{
+        //Given
+        DateUtil dateUtil = new DateUtil();
+        GoogleSpreadSheetApi api = new GoogleSpreadSheetApi();
+        ClientLoginAuthenticator authenticator = new ClientLoginAuthenticator();
+        GoogleSpreadSheetStatsReader reader = new GoogleSpreadSheetStatsReader(authenticator, api);
+        GoogleSpreadSheetStatsWriter writer = new GoogleSpreadSheetStatsWriter(authenticator, api, dateUtil, reader);
+        
+        String dailyDate = TestHelper.getRandomColumnKey();
+        String dateInSameWeekAsDailyDate = dateUtil.getDateInSameWeek(dailyDate);
+        System.out.println("Random date:" + dailyDate);
+        System.out.println("Random date in same week:" + dateInSameWeekAsDailyDate);
+
+        //When
+        writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
+        writer.writeStats(dateInSameWeekAsDailyDate, DailyStats.getSampleDailyStats());
+
+        //Then
+        PeriodizedStatsWrapper<DailyStats> accumulatedStats = reader.readStats(dailyDate, DailyStats.class);
+        TestHelper.assertMat(accumulatedStats.getWeekly(), DailyStats.SAMPLE_MAT * 2);
+    }
+    /*
+
+    @Test
+    public void should_set_mat() throws Exception{
+        TestHelper.assertMat(readDailyStats.getDaily(), DailyStats.SAMPLE_MAT);
+    }
+
+    @Test
+    @Ignore("Fixa så att träning skrivs i spreadsheeten")
+    public void should_set_traning() throws Exception{
+        TestHelper.assertTraning(readDailyStats.getDaily(), DailyStats.SAMPLE_TRANING);
+    }
+    
+    @Test
     public void should_set_neck(){
-        TestHelper.assertNacke(readStats, BodyStats.SAMPLE_NACKE);
+        TestHelper.assertNacke(readBodyStats.getDaily(), BodyStats.SAMPLE_NACKE);
     }
 
     @Test
     public void should_set_brost(){
-        TestHelper.assertBröst(readStats, BodyStats.SAMPLE_BROST);
+        TestHelper.assertBröst(readBodyStats.getDaily(), BodyStats.SAMPLE_BROST);
     }
+    */
 }

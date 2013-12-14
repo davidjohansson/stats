@@ -10,4 +10,8 @@ public class SpreadSheetException extends Exception {
     public SpreadSheetException(Throwable t){
         super(t);
     }
+    
+    public SpreadSheetException(String s){
+        super(s);
+    }
 }

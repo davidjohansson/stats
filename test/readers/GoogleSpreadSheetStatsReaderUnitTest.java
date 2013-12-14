@@ -9,9 +9,8 @@ import model.SpreadSheetApi;
 
 import org.junit.Test;
 
+import writers.SpreadSheetIntegrationData;
 import authentication.SpreadSheetAuthenticator;
-
-import com.google.gdata.client.spreadsheet.SpreadsheetService;
 public class GoogleSpreadSheetStatsReaderUnitTest {
 
     
@@ -25,9 +24,9 @@ public class GoogleSpreadSheetStatsReaderUnitTest {
         
         //When
         String dateString = "dateString";
-        reader.readStats(dateString);
+        reader.readStats(dateString, BodyStats.class);
 
         //Then
-        verify(api).getDataByFirstColumnValue(eq(dateString), any(SpreadsheetService.class), eq(BodyStats.class));
+        verify(api).getDataByFirstColumnValue(eq(dateString), eq(BodyStats.class), any(SpreadSheetIntegrationData.class));
     }
 }
