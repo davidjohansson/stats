@@ -125,6 +125,7 @@ public class DateUtilTest {
         //Given
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2013);
+
         cal.set(Calendar.MONTH, Calendar.DECEMBER);
         cal.set(Calendar.DATE, 15);
 
