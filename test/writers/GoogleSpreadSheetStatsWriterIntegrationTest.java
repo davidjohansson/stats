@@ -1,11 +1,11 @@
 package writers;
 
 import helpers.TestHelper;
+import model.BodyStats;
 import model.DailyStats;
 import model.GoogleSpreadSheetApi;
 import model.PeriodizedStatsWrapper;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import readers.GoogleSpreadSheetStatsReader;
@@ -13,9 +13,44 @@ import util.DateUtil;
 import authentication.ClientLoginAuthenticator;
 
 public class GoogleSpreadSheetStatsWriterIntegrationTest {
-    @BeforeClass
-    public static void setup() throws Exception{
-     }
+
+    @Test
+    public void should_write_sample_body_stats() throws Exception{
+        //Given
+        GoogleSpreadSheetApi api = new GoogleSpreadSheetApi();
+        ClientLoginAuthenticator authenticator = new ClientLoginAuthenticator();
+        GoogleSpreadSheetStatsReader reader = new GoogleSpreadSheetStatsReader(authenticator, api);
+        GoogleSpreadSheetStatsWriter writer = new GoogleSpreadSheetStatsWriter(authenticator, api, new DateUtil(), reader);
+        
+        String bodyDate = TestHelper.getRandomColumnKey();
+        System.out.println("Random date:" + bodyDate);
+
+        //When
+        writer.writeStats(bodyDate, BodyStats.getSampleBodyStats());
+        
+        //Then
+        PeriodizedStatsWrapper<BodyStats> accumulatedStats = reader.readStats(bodyDate, BodyStats.class);
+        TestHelper.assertBröst(accumulatedStats.getDaily(), BodyStats.SAMPLE_BROST);
+    }
+    
+    @Test
+    public void should_write_sample_daily_stats() throws Exception{
+        //Given
+        GoogleSpreadSheetApi api = new GoogleSpreadSheetApi();
+        ClientLoginAuthenticator authenticator = new ClientLoginAuthenticator();
+        GoogleSpreadSheetStatsReader reader = new GoogleSpreadSheetStatsReader(authenticator, api);
+        GoogleSpreadSheetStatsWriter writer = new GoogleSpreadSheetStatsWriter(authenticator, api, new DateUtil(), reader);
+        
+        String dailyDate = TestHelper.getRandomColumnKey();
+        System.out.println("Random date:" + dailyDate);
+
+        //When
+        writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
+        
+        //Then
+        PeriodizedStatsWrapper<DailyStats> accumulatedStats = reader.readStats(dailyDate, DailyStats.class);
+        TestHelper.assertMat(accumulatedStats.getWeekly(), DailyStats.SAMPLE_MAT);
+    }
 
     @Test
     public void should_not_accumulate_if_two_dailys_written_the_same_day() throws Exception{

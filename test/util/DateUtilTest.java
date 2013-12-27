@@ -125,14 +125,14 @@ public class DateUtilTest {
         //Given
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2013);
-        cal.set(Calendar.MONTH, Calendar.NOVEMBER);
-        cal.set(Calendar.DATE, 17);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DATE, 15);
 
         //When
         DateUtil dateUtil = new DateUtil();
         String dayInSameWeek = dateUtil.getDateInSameWeek(dateUtil.formatDate(cal.getTime()));
 
         //Then
-        assertThat(dayInSameWeek, equalTo("2013-11-11"));
+        assertThat(dayInSameWeek, equalTo("2013-12-09"));
     }
 }

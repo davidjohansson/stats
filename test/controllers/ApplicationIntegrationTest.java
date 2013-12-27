@@ -42,7 +42,7 @@ public class ApplicationIntegrationTest {
     
     @Test
     public void test_put() throws Exception{
-        Result bench = Application.bodystatsPut(TestHelper.getRandomColumnKey(), BodyStats.getSampleBodyStats());
+        Result bench = Application.statsPut(TestHelper.getRandomColumnKey(), BodyStats.getSampleBodyStats());
         System.out.println(bench.getWrappedResult().toString());
     }
 }

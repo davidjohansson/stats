@@ -1,19 +1,27 @@
 package model;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
 public class DailyStatsMetaData implements StatsMetaData {
 
+    private Config config;
+
+    public DailyStatsMetaData(){
+        config = ConfigFactory.load();
+    }
     @Override
     public String getDailyWorkSheet() {
-        return "Daily daily stats";
+        return config.getString("dailystats.dailyworksheet");
     }
 
     @Override
     public String getWeeklyWorkSheet() {
-        return "Stats";
+        return config.getString("dailystats.weeklyworksheet");
     }
 
     @Override
     public String getSpreadSheet() {
-        return "Benchmark";
+        return config.getString("dailystats.spreadsheet");
     }
 }

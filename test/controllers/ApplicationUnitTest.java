@@ -87,7 +87,7 @@ public class ApplicationUnitTest {
             //When
             String any = "some string";
             BodyStats stats = new BodyStats();
-            Application.bodystatsPut(any, stats);
+            Application.statsPut(any, stats);
            
             //Then
             verify(writer).writeStats(any, stats);

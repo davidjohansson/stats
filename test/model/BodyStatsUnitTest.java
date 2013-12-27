@@ -49,4 +49,6 @@ public class BodyStatsUnitTest {
     public void should_set_neck() throws Exception {
         TestHelper.assertNacke(bodyStats, 43f);
     }
+    
+
 }

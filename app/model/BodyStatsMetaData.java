@@ -1,10 +1,18 @@
 package model;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
 public class BodyStatsMetaData implements StatsMetaData {
 
+    private Config config;
+    
+    public BodyStatsMetaData(){
+        config = ConfigFactory.load();
+    }
     @Override
     public String getDailyWorkSheet() {
-        return "Stats";
+        return config.getString("bodystats.dailyworksheet");
     }
 
     @Override
@@ -14,6 +22,6 @@ public class BodyStatsMetaData implements StatsMetaData {
 
     @Override
     public String getSpreadSheet() {
-        return "Benchmark";
+        return config.getString("bodystats.spreadsheet");
     }
 }

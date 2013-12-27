@@ -37,6 +37,7 @@ public class GoogleSpreadSheetStatsWriterUnitTest{
         SpreadSheetAuthenticator authenticator = mock(SpreadSheetAuthenticator.class);
         DateUtil dateUtil = mock(DateUtil.class);
         StatsReader reader = mock(StatsReader.class);
+        when(reader.readStats(any(String.class), any(Class.class))).thenReturn(new PeriodizedStatsWrapper<BodyStats>(null, null));
         StatsWriter writer = new GoogleSpreadSheetStatsWriter(authenticator, api, dateUtil, reader);
  
         BodyStats bodyStats = new BodyStats();

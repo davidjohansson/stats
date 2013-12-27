@@ -15,4 +15,4 @@ dist
 /.settings
 .target
 app/authentication/ClientLoginAuthenticator.java
-
+bin/
