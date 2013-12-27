@@ -79,7 +79,8 @@ public class GoogleSpreadSheetStatsWriter implements StatsWriter {
             SpreadSheetIntegrationData data, String weeklyString)
             throws SpreadSheetException {
         if(existingRowData != null && !StatsHelper.isEmpty(existingRowData)){
-            T backOutStats = StatsHelper.<T>getBackOutStats(stats);
+            //T backOutStats = StatsHelper.<T>getBackOutStats(stats);
+            T backOutStats = StatsHelper.<T>getBackOutStats(existingRowData);
             api.writeDataByFirstColumnValue(weeklyString, backOutStats, data);
         }
     }

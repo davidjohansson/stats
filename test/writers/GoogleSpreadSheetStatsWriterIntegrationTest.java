@@ -68,9 +68,9 @@ public class GoogleSpreadSheetStatsWriterIntegrationTest {
         System.out.println("Random date:" + dailyDate);
 
         //When
+        writer.writeStats(dailyDate, DailyStats.getSampleDailyStatsAndAdd(10));
         writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
-        writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
-        
+
         //Then
         PeriodizedStatsWrapper<DailyStats> accumulatedStats = reader.readStats(dailyDate, DailyStats.class);
         TestHelper.assertMat(accumulatedStats.getWeekly(), DailyStats.SAMPLE_MAT);

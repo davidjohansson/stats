@@ -1,12 +1,11 @@
 package writers;
 
+import static org.junit.Assert.assertTrue;
 import helpers.TestHelper;
 import model.BodyStats;
 import model.DailyStats;
 
-import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 
 public class StatsHelperUnitTest {
 

@@ -1,11 +1,9 @@
 package writers;
 import static org.mockito.Matchers.any;
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
 import model.BodyStats;
 import model.DailyStats;
 import model.PeriodizedStatsWrapper;
@@ -15,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import readers.StatsReader;
-
 import util.DateUtil;
 import authentication.SpreadSheetAuthenticator;
 
