@@ -1,8 +1,8 @@
 package readers;
 
 import model.PeriodizedStatsWrapper;
-import model.SpreadSheetApi;
-import model.SpreadSheetException;
+import api.SpreadSheetApi;
+import api.SpreadSheetException;
 import authentication.SpreadSheetAuthenticator;
 
 

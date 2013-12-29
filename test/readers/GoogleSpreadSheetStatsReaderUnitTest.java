@@ -5,11 +5,11 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import model.BodyStats;
-import model.SpreadSheetApi;
 
 import org.junit.Test;
 
 import writers.SpreadSheetIntegrationData;
+import api.SpreadSheetApi;
 import authentication.SpreadSheetAuthenticator;
 public class GoogleSpreadSheetStatsReaderUnitTest {
 

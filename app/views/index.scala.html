@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
     <script src="@routes.Assets.at("javascripts/BodyStatsApp.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/DailyStatsApp.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/WorkoutStatsApp.js")" type="text/javascript"></script>
 </head> 
 <body> 
     <div data-role="page" id="bodystats">
@@ -32,7 +33,7 @@
         <div data-role="header">
             <h1>Mat, träning och fasta</h1>
         </div>
-        <a href="#bodystats" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Kroppen</span></span></a>
+        <a href="#workoutstats" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Träning</span></span></a>
         <div data-role="content">
           <form ng-controller="DailyCtrl">
                 <div data-role="fieldcontain">
@@ -63,9 +64,30 @@
             </form>
         </div>
     </div>
+    <div data-role="page" id="workoutstats">
+        <div data-role="header">
+            <h1>Träning</h1>
+        </div>
+        <a href="#bodystats" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Kroppsstats</span></span></a>
+        <div data-role="content">
+          <form ng-controller="WorkoutCtrl">
+              Fem km: <input type="text" ng-model="stat.fivekm" placeholder="Fem km" value={{stat.fivekm}}>
+              Räckhäv: <input type="text" ng-model="stat.rackhav" placeholder="Räckhäv" value={{stat.rackhav}}>
+              Dips: <input type="text" ng-model="stat.dips" placeholder="Dips" value={{stat.dips}}>
+              Marklyft: <input type="text" ng-model="stat.marklyft" placeholder="Marklyft" value={{stat.marklyft}}>
+              Styrkefrivändning: <input type="text" ng-model="stat.styrkefrivandning" placeholder="Styrkefrivändning" value={{stat.styrkefrivandning}}>
+              Styrkeryck: <input type="text" ng-model="stat.styrkeryck" placeholder="Styrkeryck" value={{stat.styrkeryck}}>
+              Splitjerk: <input type="text" ng-model="stat.splitjerk" placeholder="Splitjerk" value={{stat.splitjerk}}>
+              Bänkpress: <input type="text" ng-model="stat.bankpress" placeholder="Bänkpress" value={{stat.bankpress}}>
+              Press: <input type="text" ng-model="stat.press" placeholder="Press" value={{stat.press}}>
+              <input type="button" ng-click="addWorkoutStats()" value="Posta till Google spreadsheet" />
+          </form>
+        </div>
+    </div>
     <script type="text/javascript">
         angular.bootstrap(document.getElementById('bodystats'), ['BodyStatsApp']);
         angular.bootstrap(document.getElementById('dailystats'), ['DailyStatsApp']);
+        angular.bootstrap(document.getElementById('workoutstats'), ['WorkoutStatsApp']);
     </script>
 </body>
 </html>

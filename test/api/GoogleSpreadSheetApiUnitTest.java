@@ -1,6 +1,7 @@
-package model;
+package api;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -11,12 +12,17 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+import model.BodyStats;
+import model.DailyStats;
 import model.StatsMetaData.UpdateMode;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import writers.SpreadSheetIntegrationData;
+
+import api.ExistingRowResolver;
+import api.GoogleSpreadSheetApi;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.spreadsheet.CustomElementCollection;
@@ -141,4 +147,87 @@ public class GoogleSpreadSheetApiUnitTest {
         //Then
         verify(service).insert(eq(url), Mockito.<ListEntry>any(ListEntry.class));
     }
+    
+    @Test
+    public void should_not_serialize_zero() throws Exception{
+        //Given
+        BodyStats bodyStats = BodyStats.getSampleBodyStats();
+        bodyStats.setBrost(0);
+        String date = "2013-11-01";
+        
+        //When
+        ListEntry row = new ListEntry();
+        new GoogleSpreadSheetApi().serializeToRow(bodyStats, date, row, UpdateMode.OVERWRITE);
+        
+        //Then
+        assertThat(row.getCustomElements().getValue("Datum"), is(date));
+        assertThat(parseFloat(row, "Nacke"), is(BodyStats.SAMPLE_NACKE));
+        assertThat(parseFloat(row, "Fett2"), is(BodyStats.SAMPLE_FETT2));
+        assertThat(parseFloat(row, "Mage"), is(BodyStats.SAMPLE_MAGE));
+        assertThat(parseFloat(row, "Vikt"), is(BodyStats.SAMPLE_VIKT));
+        assertThat(row.getCustomElements().getValue("Brost"), nullValue());
+    }
+    
+    @Test
+    public void should_say_zero_int_is_zero_value() throws Exception{
+        //Given
+        String zeroInt = "0";
+        
+        //When
+        boolean isZero = new GoogleSpreadSheetApi().isZeroValue(zeroInt);
+        
+        //Then
+        assertThat(isZero, is(true));
+        
+    }
+    
+    @Test
+    public void should_say_zero_double_is_zero_value() throws Exception{
+        //Given
+        String zeroInt = "0.0";
+        
+        //When
+        boolean isZero = new GoogleSpreadSheetApi().isZeroValue(zeroInt);
+        
+        //Then
+        assertThat(isZero, is(true));
+        
+    }
+    
+    @Test
+    public void should_say_nan_is_zero_value() throws Exception{
+        //Given
+        String zeroInt = "nan";
+        
+        //When
+        boolean isZero = new GoogleSpreadSheetApi().isZeroValue(zeroInt);
+        
+        //Then
+        assertThat(isZero, is(false));
+    }
+    
+    @Test
+    public void should_say_one_int_is_not_zero_value() throws Exception{
+        //Given
+        String zeroInt = "1";
+        
+        //When
+        boolean isZero = new GoogleSpreadSheetApi().isZeroValue(zeroInt);
+        
+        //Then
+        assertThat(isZero, is(false));
+    }
+    
+    @Test
+    public void should_say_one_double_is_not_zero_value() throws Exception{
+        //Given
+        String zeroInt = "1.1";
+        
+        //When
+        boolean isZero = new GoogleSpreadSheetApi().isZeroValue(zeroInt);
+        
+        //Then
+        assertThat(isZero, is(false));
+    }
+    
 }

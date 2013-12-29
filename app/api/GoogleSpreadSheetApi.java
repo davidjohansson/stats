@@ -1,4 +1,4 @@
-package model;
+package api;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -182,19 +182,31 @@ public class GoogleSpreadSheetApi implements SpreadSheetApi {
         Iterator<String> keys = jsonObject.fieldNames();
         while (keys.hasNext()) {
             String key = keys.next();
-            if(updateMode == UpdateMode.OVERWRITE){
-                overWriteColumnValue(row, key,  jsonObject);
-            } else if(updateMode == UpdateMode.ACCUMULATE){
-                try {
-                    accumulateRowValues(row, key, jsonObject);
-                } catch (ParseException e) {
-                    throw new SpreadSheetException(e);
+            if(!isZeroValue(jsonObject.get(key).asText())){
+                if(updateMode == UpdateMode.OVERWRITE){
+                    overWriteColumnValue(row, key,  jsonObject);
+                } else if(updateMode == UpdateMode.ACCUMULATE){
+                    try {
+                        accumulateRowValues(row, key, jsonObject);
+                    } catch (ParseException e) {
+                        throw new SpreadSheetException(e);
+                    }
+                } else{
+                    throw new SpreadSheetException("Don't know what to do with update mode " + updateMode);
                 }
-            } else{
-                throw new SpreadSheetException("Don't know what to do with update mode " + updateMode);
             }
         }
         return row;
+    }
+
+    protected boolean isZeroValue(String asText) {
+        
+        try{
+            int parseInt = Integer.parseInt(asText);
+            return parseInt == 0;
+        } catch(NumberFormatException e){
+             return (asText.equals("0.0") || asText.equals("0,0"));
+        }
     }
 
     private void accumulateRowValues(ListEntry row, String key, JsonNode jsonObject) throws ParseException {

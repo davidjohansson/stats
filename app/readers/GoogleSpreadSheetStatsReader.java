@@ -8,10 +8,10 @@ import util.DateUtil;
 import writers.SpreadSheetIntegrationData;
 
 import model.PeriodizedStatsWrapper;
-import model.SpreadSheetApi;
-import model.SpreadSheetException;
 import model.StatsMetaData;
 import model.StatsMetaDataHelper;
+import api.SpreadSheetApi;
+import api.SpreadSheetException;
 import authentication.SpreadSheetAuthenticator;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;

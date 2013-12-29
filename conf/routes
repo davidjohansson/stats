@@ -6,15 +6,15 @@
 GET     /                           controllers.Application.index()
 
 GET     /bodystats/:dateString                     controllers.Application.bodystatsGet(dateString:String)
-
 PUT     /bodystats/:dateString                     controllers.Application.bodystatsPut(dateString:String)
 
 #Gets daily and weekly in two separate jsonobjects
 GET     /dailystats/:dateString                     controllers.Application.dailystatsGet(dateString:String)
-
 #Only puts daily data but writes both daily and weekly stats
 PUT     /dailystats/:dateString                     controllers.Application.dailystatsPut(dateString:String)
 
+GET     /workoutstats/:dateString                     controllers.Application.workoutstatsGet(dateString:String)
+PUT     /workoutstats/:dateString                     controllers.Application.workoutstatsPut(dateString:String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

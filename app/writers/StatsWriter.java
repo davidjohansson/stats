@@ -1,7 +1,7 @@
 package writers;
 
+import api.SpreadSheetException;
 import model.PeriodizedStatsWrapper;
-import model.SpreadSheetException;
 
 public interface StatsWriter {
 

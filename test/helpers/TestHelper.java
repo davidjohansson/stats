@@ -61,5 +61,10 @@ public class TestHelper {
         return start + (int)Math.round(Math.random() * (end - start));
     }
 
+    public static void assertStats(BodyStats daily, BodyStats sampleBodyStats) {
+        // TODO Auto-generated method stub
+        
+    }
+
 
 }

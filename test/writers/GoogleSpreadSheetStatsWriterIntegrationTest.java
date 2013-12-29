@@ -4,21 +4,23 @@ import helpers.TestHelper;
 
 import model.BodyStats;
 import model.DailyStats;
-import model.GoogleSpreadSheetApi;
 import model.PeriodizedStatsWrapper;
+import model.WorkoutStats;
 
 import org.junit.Test;
-
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import readers.GoogleSpreadSheetStatsReader;
 import util.DateUtil;
+import api.GoogleSpreadSheetApi;
 import authentication.ClientLoginAuthenticator;
+
 
 public class GoogleSpreadSheetStatsWriterIntegrationTest {
 
 
     @Test
     public void should_write_sample_body_stats() throws Exception{
-
 
         //Given
         GoogleSpreadSheetApi api = new GoogleSpreadSheetApi();
@@ -30,11 +32,13 @@ public class GoogleSpreadSheetStatsWriterIntegrationTest {
         System.out.println("Random date:" + bodyDate);
 
         //When
-        writer.writeStats(bodyDate, BodyStats.getSampleBodyStats());
+        BodyStats sampleBodyStats = BodyStats.getSampleBodyStats();
+        writer.writeStats(bodyDate, sampleBodyStats);
         
         //Then
         PeriodizedStatsWrapper<BodyStats> accumulatedStats = reader.readStats(bodyDate, BodyStats.class);
-        TestHelper.assertBröst(accumulatedStats.getDaily(), BodyStats.SAMPLE_BROST);
+        
+        assertThat(accumulatedStats.getDaily(), equalTo(sampleBodyStats));
     }
     
     @Test
@@ -49,11 +53,32 @@ public class GoogleSpreadSheetStatsWriterIntegrationTest {
         System.out.println("Random date:" + dailyDate);
 
         //When
-        writer.writeStats(dailyDate, DailyStats.getSampleDailyStats());
+        DailyStats sampleDailyStats = DailyStats.getSampleDailyStats();
+        writer.writeStats(dailyDate, sampleDailyStats);
         
         //Then
         PeriodizedStatsWrapper<DailyStats> accumulatedStats = reader.readStats(dailyDate, DailyStats.class);
-        TestHelper.assertMat(accumulatedStats.getWeekly(), DailyStats.SAMPLE_MAT);
+        assertThat(accumulatedStats.getWeekly(), equalTo(sampleDailyStats));
+    }
+
+    @Test
+    public void should_write_sample_workout_stats() throws Exception{
+        //Given
+        GoogleSpreadSheetApi api = new GoogleSpreadSheetApi();
+        ClientLoginAuthenticator authenticator = new ClientLoginAuthenticator();
+        GoogleSpreadSheetStatsReader reader = new GoogleSpreadSheetStatsReader(authenticator, api);
+        GoogleSpreadSheetStatsWriter writer = new GoogleSpreadSheetStatsWriter(authenticator, api, new DateUtil(), reader);
+        
+        String dailyDate = TestHelper.getRandomColumnKey();
+        System.out.println("Random date:" + dailyDate);
+
+        //When
+        WorkoutStats sampleWorkoutStats = WorkoutStats.getSampleWorkoutStats();
+        writer.writeStats(dailyDate, sampleWorkoutStats);
+        
+        //Then
+        PeriodizedStatsWrapper<WorkoutStats> accumulatedStats = reader.readStats(dailyDate, WorkoutStats.class);
+        assertThat(accumulatedStats.getDaily(), equalTo(sampleWorkoutStats));
     }
 
     @Test

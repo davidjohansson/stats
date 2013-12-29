@@ -3,7 +3,7 @@ package controllers;
 import model.BodyStats;
 import model.DailyStats;
 import model.PeriodizedStatsWrapper;
-import model.SpreadSheetException;
+import model.WorkoutStats;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -12,6 +12,8 @@ import readers.GoogleReaderModule;
 import readers.StatsReader;
 import views.html.index;
 import writers.StatsWriter;
+
+import api.SpreadSheetException;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Guice;
@@ -44,13 +46,29 @@ public class Application extends Controller {
         }
     }
 
+    public static Result workoutstatsGet(String dateString) {
+        PeriodizedStatsWrapper<WorkoutStats> stats;
+        try {
+            stats = reader.readStats(dateString, WorkoutStats.class);
+            ObjectNode result = getJSonNodeFromObject(stats.getDaily());
+            return ok(result);
+        } catch (SpreadSheetException e) {
+            return internalServerError("Failed to read data");
+        }
+    }
+
+    public static Result bodystatsPut(String dateString) {
+        BodyStats stats = getModelObjectFromForm(BodyStats.class);
+        return statsPut(dateString, stats);
+    }
+
     public static Result dailystatsPut(String dateString){
         DailyStats stats = getModelObjectFromForm(DailyStats.class);
         return statsPut(dateString, stats);
     }
-    
-    public static Result bodystatsPut(String dateString) {
-        BodyStats stats = getModelObjectFromForm(BodyStats.class);
+
+    public static Result workoutstatsPut(String dateString){
+        WorkoutStats stats = getModelObjectFromForm(WorkoutStats.class);
         return statsPut(dateString, stats);
     }
 

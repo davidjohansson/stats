@@ -1,12 +1,12 @@
 package readers;
 import helpers.TestHelper;
 import model.BodyStats;
-import model.GoogleSpreadSheetApi;
 import model.PeriodizedStatsWrapper;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import api.GoogleSpreadSheetApi;
 import authentication.ClientLoginAuthenticator;
 
 

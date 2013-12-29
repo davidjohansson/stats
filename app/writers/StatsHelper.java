@@ -3,7 +3,8 @@ package writers;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import model.SpreadSheetException;
+import api.SpreadSheetException;
+
 
 
 public class StatsHelper {

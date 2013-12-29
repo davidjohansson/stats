@@ -72,4 +72,49 @@ public class BodyStats {
         stats.setVikt(SAMPLE_VIKT);
         return stats;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(brost);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(fett2);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(mage);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(nacke);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(vikt);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BodyStats other = (BodyStats) obj;
+        if (Double.doubleToLongBits(brost) != Double
+                .doubleToLongBits(other.brost))
+            return false;
+        if (Double.doubleToLongBits(fett2) != Double
+                .doubleToLongBits(other.fett2))
+            return false;
+        if (Double.doubleToLongBits(mage) != Double
+                .doubleToLongBits(other.mage))
+            return false;
+        if (Double.doubleToLongBits(nacke) != Double
+                .doubleToLongBits(other.nacke))
+            return false;
+        if (Double.doubleToLongBits(vikt) != Double
+                .doubleToLongBits(other.vikt))
+            return false;
+        return true;
+    }
 }

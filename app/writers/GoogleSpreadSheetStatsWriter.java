@@ -5,13 +5,13 @@ import java.text.ParseException;
 import javax.inject.Inject;
 
 import model.PeriodizedStatsWrapper;
-import model.SpreadSheetApi;
-import model.SpreadSheetException;
 import model.StatsMetaData;
 import model.StatsMetaData.UpdateMode;
 import model.StatsMetaDataHelper;
 import readers.StatsReader;
 import util.DateUtil;
+import api.SpreadSheetApi;
+import api.SpreadSheetException;
 import authentication.SpreadSheetAuthenticator;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;

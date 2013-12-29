@@ -9,6 +9,7 @@ public class StatsMetaDataHelper {
     static{
         metaDataStorage.put(BodyStats.class, new BodyStatsMetaData());
         metaDataStorage.put(DailyStats.class, new DailyStatsMetaData());
+        metaDataStorage.put(WorkoutStats.class, new WorkoutStatsMetaData());
     }
 
     public static <T> StatsMetaData getMetaData(Class<T> clazz){

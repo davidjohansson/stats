@@ -7,13 +7,13 @@ import static org.mockito.Mockito.when;
 import model.BodyStats;
 import model.DailyStats;
 import model.PeriodizedStatsWrapper;
-import model.SpreadSheetApi;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import readers.StatsReader;
 import util.DateUtil;
+import api.SpreadSheetApi;
 import authentication.SpreadSheetAuthenticator;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
